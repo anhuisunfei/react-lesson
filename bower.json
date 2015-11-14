@@ -1,0 +1,19 @@
+{
+  "name": "react-lesson",
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.14.2",
+    "bowser": "browser#~1.0.0"
+  }
+}
