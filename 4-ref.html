@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="bower_components/react/react.min.js"></script>
+    <script src="bower_components/react/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+
+<body>
+<div id="app">
+		
+	</div>
+
+
+
+	<script type="text/babel">
+	var FormApp=React.createClass({
+
+		getInitialState:function(){
+			return {
+				inputValue:"input value....",
+				selectValue:"C",
+				radioValue:"D",
+				textareaValue:'area value...',
+				radioValue:'A',
+				checkValues:[]
+			};
+		},
+		handlerRadio:function(e){
+			this.setState({
+				radioValue:e.target.value
+			})
+		},
+		handlerCheckBox:function(e){
+			var checkValues=this.state.checkValues.slice();
+			var newValue=e.target.value;
+			var index=checkValues.indexOf(newValue);
+			if(index==-1){
+				checkValues.push(newValue);
+			}else{
+				checkValues.splice(index,1);
+			}
+			this.setState({
+				checkValues:checkValues
+			})
+
+		},
+		submitHandler:function(e){
+			e.preventDefault();
+			console.log("form submitting");
+
+			var formData={
+				goodInput:this.refs.goodInput.getDOMNode().value,
+				goodSelect:this.refs.goodSelect.getDOMNode().value,
+				goodTextArea:this.refs.goodTextArea.getDOMNode().value,
+				radioValue:this.state.radioValue,
+				checkValues:this.state.checkValues
+			};
+			console.log(formData);
+			this.refs.goodRadio.saySomething();
+		},
+		render:function(){
+
+			return (
+					<form onSubmit={this.submitHandler}>
+						<input ref={function(comp){React.findDOMNode(comp).focus()}} type="text"  defaultValue={this.state.inputValue}/>
+						<br/>
+						<select ref="goodSelect" defaultValue={this.state.selectValue}>
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						</select>
+						<br/>
+						<label>Radio Button</label>
+						<RadioButtons ref="goodRadio"  handlerRadio={this.handlerRadio} />
+						<br/>
+						<label>CheckBox</label>
+						<CheckBoxs handlerCheckBox={this.handlerCheckBox} />
+						<br/>
+						<textarea ref="goodTextArea" defaultValue="default checkbox value...."></textarea>
+						<br/>
+						<button type="submit">submit</button>
+					</form>
+				);
+		}
+
+	});
+	var RadioButtons=React.createClass({
+		saySomething:function(){
+			alert('say Some Thing！！！！');
+		},
+		render:function(){ 
+			return (
+				<span>
+					A
+					<input  onChange={this.props.handlerRadio}  name="goodRadio"  type="radio" value="A"/>
+					B
+					<input  onChange={this.props.handlerRadio} name="goodRadio" type="radio" value="B"/>
+					C
+					<input  onChange={this.props.handlerRadio}  name="goodRadio" type="radio" value="C"/>
+					D
+					<input  onChange={this.props.handlerRadio}  name="goodRadio" type="radio" value="D"/>
+				</span>
+			)
+		}
+	});
+
+	var CheckBoxs=React.createClass({
+		render:function(){
+			return (
+				<span>
+					A
+					<input onChange={this.props.handlerCheckBox} name="goodCheckBox" type="checkbox" value="A"/>
+					B
+					<input onChange={this.props.handlerCheckBox} name="goodCheckBox" type="checkbox" value="B"/>
+					C
+					<input onChange={this.props.handlerCheckBox} name="goodCheckBox" type="checkbox"  value="C"/>
+					D
+					<input onChange={this.props.handlerCheckBox} name="goodCheckBox" type="checkbox" value="D"/>
+				</span>
+			)
+		}
+	})
+
+	React.render(<FormApp/>,
+		document.getElementById('app'));
+
+
+	</script>
+</body>
+
+</html>
