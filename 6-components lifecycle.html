@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>Koa React Rest Full</title>
+    <meta charset="utf-8"/>
+    <script src="bower_components/react/react-with-addons.min.js"></script>
+    <script src="bower_components/react/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+
+<body>
+    <div id="example" class="container">
+    </div>
+
+    <script type="text/babel">
+    	var Hello=React.createClass({
+    		getInitialState:function(){
+                console.log('getInitialState...');
+    			return{
+    				count:0, 
+    			}
+    		},
+            getDefaultProps:function(){
+                console.log('getDefaultProps ...');
+            },
+            componentWillMount:function(){
+                console.log('componentWillMount ...');
+                var self=this;
+
+                this.timer=setInterval(function(){
+                    self.setState({
+                        count:self.state.count+1
+                    });
+                },1000);
+            },
+            componentWillUnmount:function(){
+                console.log('componentWillUnmount ');
+                clearInterval(this.timer);
+
+            },
+            componentDidMount :function(){
+                console.log('componentDidMount ...');
+            },
+            KillSelf:function(){
+                React.unmountComponentAtNode(document.getElementById('example'));
+            },
+    		render:function(){
+    		      console.log('渲染');
+    			return (
+    					<div>
+    						<h1>计数：{this.state.count}</h1>
+                            <br/>
+                            <button onClick={this.KillSelf} >卸载组件</button>
+                        </div>
+					)
+    		}
+    	});
+    	 
+
+
+
+        React.render(
+        <Hello />, 
+        document.getElementById('example') );
+    </script>
+</body>
+
+</html>

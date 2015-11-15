@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>Koa React Rest Full</title>
+    <meta charset="utf-8"/>
+    <script src="bower_components/react/react-with-addons.min.js"></script>
+    <script src="bower_components/react/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+
+<body>
+    <div id="example" class="container">
+    </div>
+
+    <script type="text/babel">
+    	var Hello=React.createClass({
+    		getInitialState:function(){
+    			return{
+    				count:0, 
+    			}
+    		},
+            getDefaultProps:function(){
+            },
+            componentWillMount:function(){
+                
+            },
+            componentWillUnmount:function(){
+              
+            },
+            componentDidMount :function(){
+            },
+            shouldComponentUpdate:function(nextProps,nextState){
+                console.log('shouldComponentUpdate');
+                return true;
+                // return nextState.count<3;
+            },
+            componentWillUpdate:function(){
+                console.log('componentWillUpdate ');
+            },
+            componentDidUpdate:function(){
+                console.log('componentDidUpdate');
+            },
+            KillSelf:function(){
+                React.unmountComponentAtNode(document.getElementById('example'));
+            },
+            UpdateCount:function(){
+                this.setState({
+                    count:this.state.count+1
+                })
+            },
+    		render:function(){
+    		      console.log('渲染');
+    			return (
+    					<div>
+    						<h1>计数：{this.state.count}</h1>
+                            <br/>
+                            <button onClick={this.KillSelf} >卸载组件</button>
+                            <button onClick={this.UpdateCount}>更新组件</button>
+                            <SubComp count={this.state.count}/>
+                        </div>
+					)
+    		}
+    	});
+
+        var SubComp=React.createClass({
+            componentWillReceiveProps:function(nextProps){
+                console.log('子组件将要获得props');
+
+            },
+            shouldComponentUpdate:function(nextProps,nextState){
+                return nextProps.count<5;
+            },
+            render:function(){
+                return (
+                    <h3>子组件计数：{this.props.count}</h3>
+                )
+            }
+        })
+    	 
+
+
+
+        React.render(
+        <Hello />, 
+        document.getElementById('example') );
+    </script>
+</body>
+
+</html>
