@@ -24,12 +24,15 @@
 					clickCount:0
 				};
 			},
-			ClickHandler:function(){
+			ClickHandler:function(e){
 
 				this.setState(
 				{	
 					clickCount:this.state.clickCount+1
 				});
+				// console.log(e); 
+				// console.log(e.target);
+				// console.log(e.nativeEvent);
 				
 			},
 			render:function(){
