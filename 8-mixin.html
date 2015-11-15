@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>Koa React Rest Full</title>
+    <meta charset="utf-8"/>
+    <script src="bower_components/react/react-with-addons.min.js"></script>
+    <script src="bower_components/react/react-dom.min.js"></script>
+    <script src="bower_components/babel/browser.min.js"></script>
+</head>
+
+<body>
+    <div id="example" class="container">
+    </div>
+
+    <script type="text/babel">
+        var stateReactMixin={
+            componentWillMount:function(){
+                this.oldState=[];
+            },
+            componentWillUpdate:function(nextProps,nextState){
+                this.oldState.push(nextState);
+            },
+            previousState:function(){
+                var index=this.oldState.length-1;
+                return index==-1?{}:this.oldState[index];
+            }
+        }
+
+    	var Hello=React.createClass({
+            mixins:[stateReactMixin],
+    		getInitialState:function(){
+    			return{
+    				count:0, 
+    			}
+    		},
+            getDefaultProps:function(){
+            },
+            
+            UpdateCount:function(){
+                this.setState({
+                    count:this.state.count+1
+                });
+                alert('上一次的计数是:'+this.previousState().count);
+            },
+    		render:function(){
+    		      console.log('渲染');
+    			return (
+    					<div>
+    						<h1>计数：{this.state.count}</h1>
+                            <br/>
+                            <button onClick={this.UpdateCount}>更新组件</button>
+                            <SubComp count={this.state.count}/>
+                        </div>
+					)
+    		}
+    	});
+
+        var SubComp=React.createClass({
+            mixins:[stateReactMixin],
+             getInitialState:function(){
+                return {
+                    count:0
+                }
+             },
+             componentWillReceiveProps :function(){
+                this.setState({
+                    count:this.props.count*2
+                })
+             },
+            render:function(){
+                console.log("上一次子组件的计数是"+this.previousState().count);
+                return (
+                    <h3>子组件计数：{this.state.count}</h3>
+                )
+            }
+        })
+    	 
+
+
+
+        React.render(
+        <Hello />, 
+        document.getElementById('example') );
+    </script>
+</body>
+
+</html>
